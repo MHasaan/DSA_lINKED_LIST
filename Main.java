@@ -1,9 +1,15 @@
-abstract class List
-{
-    void add(int data) {};
-
-    public void addToEnd(int data) {};
+abstract class List {
+    abstract void add(int data);
+    abstract public void addToEnd(int data);
+    abstract public Node deleteAtStart();
+    abstract public Node deleteAtEnd();
+    abstract public Node deletaAtIndex(int indexToDelete);
+    abstract public void print();
+    abstract public Node search(int dataRequired);
+    abstract public Node searchAtIndex(int indexToSearch);
+    abstract public String toString();
 }
+
 
 class LinkedList extends List
 {
@@ -45,8 +51,106 @@ class LinkedList extends List
             tailNode = nodeToAdd;
         }
        totalNodes++;
-
     }
+
+    public Node deleteAtStart()
+    {
+        Node nodeToDelete = headNode;
+
+        if(headNode!=null)
+        {
+            if(headNode.next != null)
+            {
+                headNode = headNode.next;
+                totalNodes--;
+            }
+            else
+            {
+                headNode = null;
+                tailNode = null;
+                totalNodes--;
+            }
+        }
+        else
+        {
+            System.out.println("List is empty");
+        }
+        return nodeToDelete;
+    }
+
+    public Node deleteAtEnd()
+    {
+        Node nodeToDelete = headNode;
+
+        if(headNode!=null)
+        {
+            if(headNode.next != null)
+            {   Node previousNode = null;
+                while(nodeToDelete != tailNode)
+                {
+                    previousNode = nodeToDelete;
+                    nodeToDelete = nodeToDelete.next;
+                }
+                previousNode.next = null;
+                tailNode = previousNode;
+                totalNodes--;
+            }
+            else
+            {
+                headNode = null;
+                tailNode = null;
+                totalNodes--;
+            }
+        }
+        else
+        {
+            System.out.println("List is empty");
+        }
+        return nodeToDelete;
+    }
+
+
+    public Node deletaAtIndex(int indexToDelete)
+    {
+        int indexCounter = 1;
+        Node nodeToDelete = headNode;
+        Node previousNode = null;
+
+        if(indexToDelete == 1)
+        {
+            nodeToDelete = this.deleteAtStart();
+        }
+        else if(indexToDelete == totalNodes)
+        {
+            nodeToDelete = deleteAtEnd();
+        }
+        else if(headNode != null)
+        {
+            while(indexCounter != indexToDelete)
+            {
+                previousNode = nodeToDelete;
+                nodeToDelete = nodeToDelete.next;
+                indexCounter++;
+            }
+            Node nextNode = nodeToDelete.next;
+            previousNode.next = nextNode;
+            totalNodes--;
+        }
+        else
+        {
+            System.out.println("List is empty");
+        }
+        return nodeToDelete;
+    }
+
+    // public Node deleteNodeWithValue(int valueToDelete)
+    // {
+    //     Node nodeToDelete = null;
+    //
+    //
+    //     return nodeToDelete;
+    // }
+
 
     public Node search(int dataRequired)
     {
@@ -132,8 +236,7 @@ class LinkedList extends List
 
         return toReturn;
     }
-
-    }
+}
 
 class Node
 {
@@ -176,6 +279,24 @@ public class Main
 
         myNode = myList.searchAtIndex(3);
         System.out.println(myNode.data);
+
+        myList.addToEnd(20);
+        myList.addToEnd(25);
+        myList.addToEnd(30);
+
+        myList.print();
+
+        myNode = myList.deleteAtStart();
+
+        myList.print();
+
+        myNode = myList.deleteAtEnd();
+
+        myList.print();
+
+        myNode = myList.deletaAtIndex(2);
+
+        myList.print();
         
     }
 }
