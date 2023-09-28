@@ -247,12 +247,48 @@ class LinkedList extends List
 
     public LinkedList mergeList(LinkedList firstList , LinkedList secondList)
     {
-        LinkedList mergedList = firstList;
-        mergedList.tailNode.next = secondList.headNode;
-        mergedList.tailNode = secondList.tailNode;
+        LinkedList cloneOfFirstList = new LinkedList();
+        cloneOfFirstList.clone(firstList);
+
+        LinkedList cloneOfSecondList = new LinkedList();
+        cloneOfSecondList.clone(secondList);
+        
+        LinkedList mergedList = new LinkedList();
+
+        mergedList.headNode = cloneOfFirstList.headNode;
+        mergedList.tailNode.next = cloneOfSecondList.headNode;
+        mergedList.tailNode = cloneOfSecondList.tailNode;
 
         return mergedList;
     }
+    public static LinkedList clone(LinkedList object_1){
+        LinkedList temp = new LinkedList();
+        if(object_1.headNode == null){
+            return temp;
+        }
+        Node currNode = object_1.headNode;
+        while(currNode != null){
+            temp.addToEnd(currNode.data);
+            currNode = currNode.next;
+        }
+        return temp;
+    }
+    // public static LinkedList clone(LinkedList toClone)
+    // {
+    //     LinkedList clonedList = new LinkedList();
+        
+    //     if (toClone.headNode != null)
+    //     {
+    //         Node currentNode = toClone.headNode;
+            
+    //         while (currentNode != null)
+    //         {
+    //             clonedList.addToEnd(currentNode.data); // Create new nodes in the cloned list
+    //             currentNode = currentNode.next;
+    //         }
+    //     }
+    //     return clonedList;
+    // }
 
 }
 
@@ -284,17 +320,6 @@ public class Main
         myList.add(10);
         myList.add(18);
         myList.addToEnd(15);
-
-        myList.print();
-
-        System.out.println(myList);
-
-        Node myNode = myList.search(10);
-        System.out.println(myNode.data);
-
-        myNode = myList.searchAtIndex(3);
-        System.out.println(myNode.data);
-
         myList.addToEnd(20);
         myList.addToEnd(25);
         myList.addToEnd(30);
@@ -305,8 +330,13 @@ public class Main
         myList2.add(60);
         myList2.add(70);
 
-        LinkedList merged = new LinkedList();
-        merged.mergeList(myList, myList2);
-        System.out.println(merged);
+
+        myList.print();
+        myList2.print();
+
+        LinkedList cloned = clone(myList);
+
+        System.out.println(cloned);
+
     }
 }
