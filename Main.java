@@ -334,9 +334,5 @@ public class Main
         myList.print();
         myList2.print();
 
-        LinkedList cloned = clone(myList);
-
-        System.out.println(cloned);
-
     }
 }
