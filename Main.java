@@ -143,15 +143,6 @@ class LinkedList extends List
         return nodeToDelete;
     }
 
-    // public Node deleteNodeWithValue(int valueToDelete)
-    // {
-    //     Node nodeToDelete = null;
-    //
-    //
-    //     return nodeToDelete;
-    // }
-
-
     public Node search(int dataRequired)
     {
         Node returnNode = null;
@@ -236,13 +227,40 @@ class LinkedList extends List
 
         return toReturn;
     }
+
+    public void reverseList()
+    {
+        Node prev = null;
+        Node current = headNode;
+        Node next;
+        tailNode = headNode;
+
+        while (current != null)
+        {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        headNode = prev;
+    }
+
+    public LinkedList mergeList(LinkedList firstList , LinkedList secondList)
+    {
+        LinkedList mergedList = firstList;
+        mergedList.tailNode.next = secondList.headNode;
+        mergedList.tailNode = secondList.tailNode;
+
+        return mergedList;
+    }
+
 }
 
 class Node
 {
     int data;
     Node next;
-
+                                                                        
     Node()
     {
         this.data = 0;
@@ -254,11 +272,6 @@ class Node
         this.data = data;
         this.next = null;
     }
-    // Node(int data , Node next)
-    // {
-    //     this.data = data;
-    //     this.next = next;
-    // }
 }
 
 public class Main
@@ -266,6 +279,8 @@ public class Main
     public static void main(String[] args)
     {
         LinkedList myList = new LinkedList();
+        LinkedList myList2 = new LinkedList();
+
         myList.add(10);
         myList.add(18);
         myList.addToEnd(15);
@@ -284,19 +299,14 @@ public class Main
         myList.addToEnd(25);
         myList.addToEnd(30);
 
-        myList.print();
 
-        myNode = myList.deleteAtStart();
-
-        myList.print();
-
-        myNode = myList.deleteAtEnd();
-
-        myList.print();
-
-        myNode = myList.deletaAtIndex(2);
-
-        myList.print();
         
+        myList2.add(50);
+        myList2.add(60);
+        myList2.add(70);
+
+        LinkedList merged = new LinkedList();
+        merged.mergeList(myList, myList2);
+        System.out.println(merged);
     }
 }
