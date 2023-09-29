@@ -1,13 +1,17 @@
-abstract class List {
+abstract class List 
+{
     abstract void add(int data);
     abstract public void addToEnd(int data);
     abstract public Node deleteAtStart();
     abstract public Node deleteAtEnd();
     abstract public Node deletaAtIndex(int indexToDelete);
-    abstract public void print();
     abstract public Node search(int dataRequired);
     abstract public Node searchAtIndex(int indexToSearch);
+    abstract public void print();
     abstract public String toString();
+    abstract public void reverseList();
+    abstract public LinkedList clone();
+
 }
 
 
@@ -42,8 +46,8 @@ class LinkedList extends List
 
         if(this.headNode == null)
         {
-            this.headNode = new Node(data);
-            this.tailNode = new Node(data);
+            this.headNode = nodeToAdd;
+            this.tailNode = nodeToAdd;
         }
         else
         {
@@ -245,50 +249,36 @@ class LinkedList extends List
         headNode = prev;
     }
 
-    public LinkedList mergeList(LinkedList firstList , LinkedList secondList)
+    public LinkedList clone()
     {
-        LinkedList cloneOfFirstList = new LinkedList();
-        cloneOfFirstList.clone(firstList);
-
-        LinkedList cloneOfSecondList = new LinkedList();
-        cloneOfSecondList.clone(secondList);
+        LinkedList clonedList = new LinkedList();
         
+        if (this.headNode != null)
+        {
+            Node currentNode = this.headNode;
+            
+            while (currentNode != null)
+            {
+                clonedList.addToEnd(currentNode.data); // Create new nodes in the cloned list
+                currentNode = currentNode.next;
+            }
+        }
+        return clonedList;
+    }
+
+    public static LinkedList mergeList(LinkedList firstList , LinkedList secondList)
+    {
+        LinkedList cloneOfFirstList = firstList.clone();
+        LinkedList cloneOfSecondList = secondList.clone();
         LinkedList mergedList = new LinkedList();
 
         mergedList.headNode = cloneOfFirstList.headNode;
+        mergedList.tailNode = cloneOfFirstList.tailNode;
         mergedList.tailNode.next = cloneOfSecondList.headNode;
         mergedList.tailNode = cloneOfSecondList.tailNode;
 
         return mergedList;
     }
-    public static LinkedList clone(LinkedList object_1){
-        LinkedList temp = new LinkedList();
-        if(object_1.headNode == null){
-            return temp;
-        }
-        Node currNode = object_1.headNode;
-        while(currNode != null){
-            temp.addToEnd(currNode.data);
-            currNode = currNode.next;
-        }
-        return temp;
-    }
-    // public static LinkedList clone(LinkedList toClone)
-    // {
-    //     LinkedList clonedList = new LinkedList();
-        
-    //     if (toClone.headNode != null)
-    //     {
-    //         Node currentNode = toClone.headNode;
-            
-    //         while (currentNode != null)
-    //         {
-    //             clonedList.addToEnd(currentNode.data); // Create new nodes in the cloned list
-    //             currentNode = currentNode.next;
-    //         }
-    //     }
-    //     return clonedList;
-    // }
 
 }
 
@@ -317,22 +307,29 @@ public class Main
         LinkedList myList = new LinkedList();
         LinkedList myList2 = new LinkedList();
 
-        myList.add(10);
-        myList.add(18);
+        myList.addToEnd(5);
+        myList.addToEnd(10);
         myList.addToEnd(15);
         myList.addToEnd(20);
         myList.addToEnd(25);
         myList.addToEnd(30);
 
 
-        
+        myList2.add(40);
         myList2.add(50);
         myList2.add(60);
         myList2.add(70);
+        myList2.add(80);
+        myList2.add(90);
 
 
         myList.print();
         myList2.print();
 
+        LinkedList merged = LinkedList.mergeList(myList, myList2);
+        merged.print();
+
+        merged.reverseList();
+        merged.print();
     }
 }
